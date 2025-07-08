@@ -2,67 +2,68 @@ const index = () => {
   const canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
   const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
-  const fallSpeed = 2;
-  const moveSpeed = 2;
+  let isColliding = false;
+  let isEnd = false;
+  const fallSpeed = 4;
   const rectSize = 32;
   let x = canvas.width / 2;
   let y = 0;
-  let direction = { left: false, right: false };
 
-  ctx.fillStyle = "green";
-
+  const highestBlock = { x: canvas.width, y: canvas.height };
   let rectStack: { x: number; y: number }[] = [];
 
-  const rectFallAnimate = () => {
+  const gameLoop = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "gray";
+
+    rectStack.forEach((placedBlock) => {
+      ctx.fillRect(placedBlock.x, placedBlock.y, rectSize, rectSize);
+
+      if (x == placedBlock.x && placedBlock.y < rectSize) {
+        isEnd = true;
+        return;
+      }
+      if (x == placedBlock.x && y + rectSize >= placedBlock.y) {
+        console.log(x, placedBlock.x);
+        isColliding = true;
+        return;
+      }
+    });
+
+    if (isEnd) {
+      return;
+    }
+
+    ctx.fillStyle = "green";
+
+    if (y >= canvas.height - rectSize) {
+      isColliding = true;
+    }
+
+    if (isColliding) {
+      rectStack.push({ x: x, y: y });
+      x = canvas.width / 2;
+      y = 0;
+      isColliding = false;
+    } else {
+      y += fallSpeed;
+    }
+
     if (
       rectStack[rectStack.length - 1] &&
-      rectStack[rectStack.length - 1].y == fallSpeed
+      rectStack[rectStack.length - 1].y <= highestBlock.y
     ) {
-      return;
+      highestBlock.x = rectStack[rectStack.length - 1].x;
+      highestBlock.y = rectStack[rectStack.length - 1].y;
     }
-    // moveBlock();
-    // ctx.clearRect(0, 0, canvas.width, rectSize + y);
     ctx.fillRect(x, y, rectSize, rectSize);
-    y += fallSpeed;
 
-    // if (
-    //   (rectStack[rectStack.length - 1] &&
-    //     x != rectStack[rectStack.length - 1].x - rectSize &&
-    //     y >= rectStack[rectStack.length - 1].y - rectSize) ||
-    //   y > canvas.height - rectSize
-    // ) {
-    //   rectStack.push({ x: x, y: y });
-
-    //   y = 0;
-    //   // fallingRect = null;
-    //   x = canvas.width / 2 - rectSize / 2;
-    //   requestAnimationFrame(rectFallAnimate);
-    //   return;
-    // }
-
-    if (y > canvas.height - rectSize) {
-      rectStack.push({ x: x, y: y });
-
-      y = 0;
-      x = canvas.width / 2;
-      requestAnimationFrame(rectFallAnimate);
-      return;
-    }
-    requestAnimationFrame(rectFallAnimate);
-  };
-
-  const moveBlock = () => {
-    if (direction.left && x > 0) {
-      x -= rectSize;
-      return;
-    }
-    if (direction.right && x < canvas.width - rectSize) {
-      x += rectSize;
-      return;
-    }
+    requestAnimationFrame(gameLoop);
   };
 
   document.onkeydown = (e) => {
+    
+    console.log(highestBlock);
     if (e.key == "ArrowLeft" && x > 0) {
       x -= rectSize;
     }
@@ -70,15 +71,8 @@ const index = () => {
       x += rectSize;
     }
   };
-  // document.onkeyup = (e) => {
-  //   if (e.key == "ArrowLeft") {
-  //     direction.left = false;
-  //   }
-  //   if (e.key == "ArrowRight") {
-  //     direction.right = false;
-  //   }
-  // };
-  requestAnimationFrame(rectFallAnimate);
+
+  gameLoop();
 };
 
 index();

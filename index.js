@@ -1,56 +1,55 @@
 var index = function () {
     var canvas = document.getElementById("myCanvas");
     var ctx = canvas.getContext("2d");
-    var fallSpeed = 2;
-    var moveSpeed = 2;
+    var isColliding = false;
+    var isEnd = false;
+    var fallSpeed = 4;
     var rectSize = 32;
     var x = canvas.width / 2;
     var y = 0;
-    var direction = { left: false, right: false };
-    ctx.fillStyle = "green";
+    var highestBlock = { x: canvas.width, y: canvas.height };
     var rectStack = [];
-    var rectFallAnimate = function () {
-        if (rectStack[rectStack.length - 1] &&
-            rectStack[rectStack.length - 1].y == fallSpeed) {
+    var gameLoop = function () {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "gray";
+        rectStack.forEach(function (placedBlock) {
+            ctx.fillRect(placedBlock.x, placedBlock.y, rectSize, rectSize);
+            if (x == placedBlock.x && placedBlock.y < rectSize) {
+                isEnd = true;
+                return;
+            }
+            if (x == placedBlock.x && y + rectSize >= placedBlock.y) {
+                console.log(x, placedBlock.x);
+                isColliding = true;
+                return;
+            }
+        });
+        if (isEnd) {
             return;
         }
-        // moveBlock();
-        // ctx.clearRect(0, 0, canvas.width, rectSize + y);
-        ctx.fillRect(x, y, rectSize, rectSize);
-        y += fallSpeed;
-        // if (
-        //   (rectStack[rectStack.length - 1] &&
-        //     x != rectStack[rectStack.length - 1].x - rectSize &&
-        //     y >= rectStack[rectStack.length - 1].y - rectSize) ||
-        //   y > canvas.height - rectSize
-        // ) {
-        //   rectStack.push({ x: x, y: y });
-        //   y = 0;
-        //   // fallingRect = null;
-        //   x = canvas.width / 2 - rectSize / 2;
-        //   requestAnimationFrame(rectFallAnimate);
-        //   return;
-        // }
-        if (y > canvas.height - rectSize) {
+        ctx.fillStyle = "green";
+        if (y >= canvas.height - rectSize) {
+            isColliding = true;
+        }
+        if (isColliding) {
             rectStack.push({ x: x, y: y });
-            y = 0;
             x = canvas.width / 2;
-            requestAnimationFrame(rectFallAnimate);
-            return;
+            y = 0;
+            isColliding = false;
         }
-        requestAnimationFrame(rectFallAnimate);
-    };
-    var moveBlock = function () {
-        if (direction.left && x > 0) {
-            x -= rectSize;
-            return;
+        else {
+            y += fallSpeed;
         }
-        if (direction.right && x < canvas.width - rectSize) {
-            x += rectSize;
-            return;
+        if (rectStack[rectStack.length - 1] &&
+            rectStack[rectStack.length - 1].y <= highestBlock.y) {
+            highestBlock.x = rectStack[rectStack.length - 1].x;
+            highestBlock.y = rectStack[rectStack.length - 1].y;
         }
+        ctx.fillRect(x, y, rectSize, rectSize);
+        requestAnimationFrame(gameLoop);
     };
     document.onkeydown = function (e) {
+        console.log(highestBlock);
         if (e.key == "ArrowLeft" && x > 0) {
             x -= rectSize;
         }
@@ -58,14 +57,6 @@ var index = function () {
             x += rectSize;
         }
     };
-    // document.onkeyup = (e) => {
-    //   if (e.key == "ArrowLeft") {
-    //     direction.left = false;
-    //   }
-    //   if (e.key == "ArrowRight") {
-    //     direction.right = false;
-    //   }
-    // };
-    requestAnimationFrame(rectFallAnimate);
+    gameLoop();
 };
 index();
