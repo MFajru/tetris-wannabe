@@ -2,14 +2,15 @@ const index = () => {
   const canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
   const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
+  let startPoint = -16;
+  let isBlocked = false;
   let isColliding = false;
   let isEnd = false;
   const fallSpeed = 4;
   const rectSize = 32;
   let x = canvas.width / 2;
-  let y = 0;
+  let y = startPoint;
 
-  const highestBlock = { x: canvas.width, y: canvas.height };
   let rectStack: { x: number; y: number }[] = [];
 
   const gameLoop = () => {
@@ -24,7 +25,6 @@ const index = () => {
         return;
       }
       if (x == placedBlock.x && y + rectSize >= placedBlock.y) {
-        console.log(x, placedBlock.x);
         isColliding = true;
         return;
       }
@@ -34,8 +34,6 @@ const index = () => {
       return;
     }
 
-    ctx.fillStyle = "green";
-
     if (y >= canvas.height - rectSize) {
       isColliding = true;
     }
@@ -43,32 +41,48 @@ const index = () => {
     if (isColliding) {
       rectStack.push({ x: x, y: y });
       x = canvas.width / 2;
-      y = 0;
+      y = startPoint;
       isColliding = false;
     } else {
       y += fallSpeed;
     }
 
-    if (
-      rectStack[rectStack.length - 1] &&
-      rectStack[rectStack.length - 1].y <= highestBlock.y
-    ) {
-      highestBlock.x = rectStack[rectStack.length - 1].x;
-      highestBlock.y = rectStack[rectStack.length - 1].y;
-    }
+    ctx.fillStyle = "green";
     ctx.fillRect(x, y, rectSize, rectSize);
+    isBlocked = false;
 
     requestAnimationFrame(gameLoop);
   };
 
   document.onkeydown = (e) => {
-    
-    console.log(highestBlock);
-    if (e.key == "ArrowLeft" && x > 0) {
-      x -= rectSize;
+    if (e.key == "ArrowLeft") {
+      if (x <= 0) {
+        isBlocked = true;
+        return;
+      }
+      rectStack.forEach((placedBlock) => {
+        if (placedBlock.x == x - rectSize && placedBlock.y - y < rectSize) {
+          isBlocked = true;
+          return;
+        }
+      });
+      if (!isBlocked) {
+        x -= rectSize;
+      }
     }
-    if (e.key == "ArrowRight" && x < canvas.width - rectSize) {
-      x += rectSize;
+    if (e.key == "ArrowRight") {
+      if (x >= canvas.width - rectSize) {
+        isBlocked = true;
+      }
+      rectStack.forEach((placedBlock) => {
+        if (placedBlock.x == x + rectSize && placedBlock.y - y < rectSize) {
+          isBlocked = true;
+          return;
+        }
+      });
+      if (!isBlocked) {
+        x += rectSize;
+      }
     }
   };
 

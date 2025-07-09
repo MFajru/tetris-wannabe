@@ -1,13 +1,14 @@
 var index = function () {
     var canvas = document.getElementById("myCanvas");
     var ctx = canvas.getContext("2d");
+    var startPoint = -16;
+    var isBlocked = false;
     var isColliding = false;
     var isEnd = false;
     var fallSpeed = 4;
     var rectSize = 32;
     var x = canvas.width / 2;
-    var y = 0;
-    var highestBlock = { x: canvas.width, y: canvas.height };
+    var y = startPoint;
     var rectStack = [];
     var gameLoop = function () {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -19,7 +20,6 @@ var index = function () {
                 return;
             }
             if (x == placedBlock.x && y + rectSize >= placedBlock.y) {
-                console.log(x, placedBlock.x);
                 isColliding = true;
                 return;
             }
@@ -27,34 +27,52 @@ var index = function () {
         if (isEnd) {
             return;
         }
-        ctx.fillStyle = "green";
         if (y >= canvas.height - rectSize) {
             isColliding = true;
         }
         if (isColliding) {
             rectStack.push({ x: x, y: y });
             x = canvas.width / 2;
-            y = 0;
+            y = startPoint;
             isColliding = false;
         }
         else {
             y += fallSpeed;
         }
-        if (rectStack[rectStack.length - 1] &&
-            rectStack[rectStack.length - 1].y <= highestBlock.y) {
-            highestBlock.x = rectStack[rectStack.length - 1].x;
-            highestBlock.y = rectStack[rectStack.length - 1].y;
-        }
+        ctx.fillStyle = "green";
         ctx.fillRect(x, y, rectSize, rectSize);
+        isBlocked = false;
         requestAnimationFrame(gameLoop);
     };
     document.onkeydown = function (e) {
-        console.log(highestBlock);
-        if (e.key == "ArrowLeft" && x > 0) {
-            x -= rectSize;
+        if (e.key == "ArrowLeft") {
+            if (x <= 0) {
+                isBlocked = true;
+                return;
+            }
+            rectStack.forEach(function (placedBlock) {
+                if (placedBlock.x == x - rectSize && placedBlock.y - y < rectSize) {
+                    isBlocked = true;
+                    return;
+                }
+            });
+            if (!isBlocked) {
+                x -= rectSize;
+            }
         }
-        if (e.key == "ArrowRight" && x < canvas.width - rectSize) {
-            x += rectSize;
+        if (e.key == "ArrowRight") {
+            if (x >= canvas.width - rectSize) {
+                isBlocked = true;
+            }
+            rectStack.forEach(function (placedBlock) {
+                if (placedBlock.x == x + rectSize && placedBlock.y - y < rectSize) {
+                    isBlocked = true;
+                    return;
+                }
+            });
+            if (!isBlocked) {
+                x += rectSize;
+            }
         }
     };
     gameLoop();
