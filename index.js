@@ -10,6 +10,9 @@ var index = function () {
     var x = canvas.width / 2;
     var y = startPoint;
     var rectStack = [];
+    document.onkeydown = function (e) {
+        XMovement(e);
+    };
     var gameLoop = function () {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = "gray";
@@ -44,7 +47,7 @@ var index = function () {
         isBlocked = false;
         requestAnimationFrame(gameLoop);
     };
-    document.onkeydown = function (e) {
+    var XMovement = function (e) {
         if (e.key == "ArrowLeft") {
             if (x <= 0) {
                 isBlocked = true;

@@ -13,6 +13,10 @@ const index = () => {
 
   let rectStack: { x: number; y: number }[] = [];
 
+  document.onkeydown = (e) => {
+    XMovement(e);
+  };
+
   const gameLoop = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "gray";
@@ -54,7 +58,7 @@ const index = () => {
     requestAnimationFrame(gameLoop);
   };
 
-  document.onkeydown = (e) => {
+  const XMovement = (e: KeyboardEvent) => {
     if (e.key == "ArrowLeft") {
       if (x <= 0) {
         isBlocked = true;
