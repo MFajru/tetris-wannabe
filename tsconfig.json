@@ -4,6 +4,10 @@
     "module": "es6",
     "target": "es5",
     "jsx": "react",
-    "moduleResolution": "node"
-  }
+    "moduleResolution": "node",
+    "outDir": "./"
+  },
+  "compileOnSave": true,
+  "include": ["./**/*"],
+  "exclude": ["./index.js", "./tetromino.js, ./tailwind.config.js"]
 }
