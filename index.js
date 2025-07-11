@@ -1,3 +1,4 @@
+import { generateTShape } from "./tetromino.js";
 var index = function () {
     var canvas = document.getElementById("myCanvas");
     var ctx = canvas.getContext("2d");
@@ -43,7 +44,8 @@ var index = function () {
             y += fallSpeed;
         }
         ctx.fillStyle = "green";
-        ctx.fillRect(x, y, rectSize, rectSize);
+        // ctx.fillRect(x, y, rectSize, rectSize);
+        generateTShape(ctx, x, y, rectSize);
         isBlocked = false;
         requestAnimationFrame(gameLoop);
     };

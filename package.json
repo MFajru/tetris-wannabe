@@ -1,5 +1,10 @@
 {
   "devDependencies": {
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^3.4.17",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "webpack": "^5.100.0"
   }
 }

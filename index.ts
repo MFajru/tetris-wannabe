@@ -1,3 +1,5 @@
+import { generateTShape } from "./tetromino.js";
+
 const index = () => {
   const canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
   const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
@@ -52,7 +54,8 @@ const index = () => {
     }
 
     ctx.fillStyle = "green";
-    ctx.fillRect(x, y, rectSize, rectSize);
+    // ctx.fillRect(x, y, rectSize, rectSize);
+    generateTShape(ctx, x, y, rectSize);
     isBlocked = false;
 
     requestAnimationFrame(gameLoop);
