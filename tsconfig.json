@@ -5,7 +5,7 @@
     "target": "es5",
     "jsx": "react",
     "moduleResolution": "node",
-    "outDir": "./"
+    "outDir": "./dist/"
   },
   "compileOnSave": true,
   "include": ["./**/*"],
