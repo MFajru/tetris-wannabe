@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    "noImplicitAny": true,
-    "module": "es6",
-    "target": "es5",
-    "jsx": "react",
+    "target": "ES6",
+    "module": "ESNext",
     "moduleResolution": "node",
-    "outDir": "./dist/"
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": "./dist"
   },
-  "compileOnSave": true,
-  "include": ["./**/*"],
-  "exclude": ["./index.js", "./tetromino.js, ./tailwind.config.js"]
+  "include": ["src"]
 }
+  

@@ -1,4 +1,5 @@
-import { generateTShape } from "./tetromino.js";
+import { generateTShape } from "./tetromino";
+import "./input.css";
 
 const index = () => {
   const canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
@@ -18,7 +19,7 @@ const index = () => {
   document.onkeydown = (e) => {
     XMovement(e);
   };
-
+  let a = 0;
   const gameLoop = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "gray";
