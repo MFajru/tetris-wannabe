@@ -50,6 +50,10 @@ const index = () => {
           isColliding = true;
           return;
         }
+        if (absY > canvas.height) {
+          isColliding = true;
+          return;
+        }
       });
       if (isColliding) {
         return;
