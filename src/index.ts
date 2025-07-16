@@ -8,8 +8,8 @@ const index = () => {
   const tShapeCoordinate = [
     { x: 0, y: 0 },
     { x: 32, y: 0 },
-    { x: 64, y: 0 },
     { x: 32, y: 32 },
+    { x: 64, y: 0 },
   ];
 
   let startPoint = -16;
@@ -21,12 +21,7 @@ const index = () => {
   let x = canvas.width / 2;
   let y = startPoint;
 
-  let rectStack: { x: number; y: number }[] = [
-    { x: 0, y: 0 },
-    { x: 32, y: 0 },
-    { x: 64, y: 0 },
-    { x: 32, y: 32 },
-  ];
+  let rectStack: { x: number; y: number }[] = [];
 
   document.onkeydown = (e) => {
     XMovement(e);
@@ -37,53 +32,45 @@ const index = () => {
     ctx.fillStyle = "gray";
     // draw stackedrect
     rectStack.forEach((placedBlock) => {
-      console.log("object");
       ctx.fillRect(placedBlock.x, placedBlock.y, rectSize, rectSize);
+
+      if (x == placedBlock.x && placedBlock.y < rectSize) {
+        isEnd = true;
+        return;
+      }
     });
+
+    if (isEnd) {
+      return;
+    }
     // new collision code
+    ctx.fillStyle = "green";
     tShapeCoordinate.forEach((tShapeCd) => {
       const absX = x + tShapeCd.x;
       const absY = y + tShapeCd.y;
+
+      if (absY + rectSize >= canvas.height) {
+        isColliding = true;
+        return;
+      }
 
       rectStack.forEach((placedBlock) => {
         if (absX == placedBlock.x && absY + rectSize >= placedBlock.y) {
           isColliding = true;
           return;
         }
-        if (absY > canvas.height) {
-          isColliding = true;
-          return;
-        }
       });
+
       if (isColliding) {
         return;
       }
-      // ctx.fillRect(x + tShapeCd.x, y + tShapeCd.y, rectSize, rectSize);
+      ctx.fillRect(absX, absY, rectSize, rectSize);
     });
-    // old collision code
-    // rectStack.forEach((placedBlock) => {
-    //   ctx.fillRect(placedBlock.x, placedBlock.y, rectSize, rectSize);
-
-    //   if (x == placedBlock.x && placedBlock.y < rectSize) {
-    //     isEnd = true;
-    //     return;
-    //   }
-    //   if (x == placedBlock.x && y + rectSize >= placedBlock.y) {
-    //     isColliding = true;
-    //     return;
-    //   }
-    // });
-
-    if (isEnd) {
-      return;
-    }
-
-    if (y >= canvas.height - rectSize) {
-      isColliding = true;
-    }
 
     if (isColliding) {
-      rectStack.push({ x: x, y: y });
+      tShapeCoordinate.forEach((t) => {
+        rectStack.push({ x: x + t.x, y: y + t.y });
+      });
       x = canvas.width / 2;
       y = startPoint;
       isColliding = false;
@@ -91,10 +78,7 @@ const index = () => {
       y += fallSpeed;
     }
 
-    ctx.fillStyle = "green";
-    // ctx.fillRect(x, y, rectSize, rectSize);
     isBlocked = false;
-
     requestAnimationFrame(gameLoop);
   };
 
@@ -105,7 +89,10 @@ const index = () => {
         return;
       }
       rectStack.forEach((placedBlock) => {
-        if (placedBlock.x == x - rectSize && placedBlock.y - y < rectSize) {
+        if (
+          placedBlock.x == tShapeCoordinate[0].x - rectSize &&
+          placedBlock.y - y < rectSize
+        ) {
           isBlocked = true;
           return;
         }
@@ -115,7 +102,11 @@ const index = () => {
       }
     }
     if (e.key == "ArrowRight") {
-      if (x >= canvas.width - rectSize) {
+      console.log(tShapeCoordinate[tShapeCoordinate.length - 1].x);
+      if (
+        tShapeCoordinate[tShapeCoordinate.length - 1].x + x >=
+        canvas.width - rectSize
+      ) {
         isBlocked = true;
       }
       rectStack.forEach((placedBlock) => {
