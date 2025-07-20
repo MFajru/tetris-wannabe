@@ -12,11 +12,18 @@ const index = () => {
     { x: 64, y: 0 },
   ];
 
+  const sShapeCoordinate = [
+    { x: 0, y: 32 },
+    { x: 32, y: 32 },
+    { x: 32, y: 0 },
+    { x: 64, y: 0 },
+  ];
+
   let startPoint = -16;
   let isBlocked = false;
   let isColliding = false;
   let isEnd = false;
-  const fallSpeed = 4;
+  const fallSpeed = 2;
   const rectSize = 32;
   let x = canvas.width / 2;
   let y = startPoint;
@@ -84,37 +91,45 @@ const index = () => {
 
   const XMovement = (e: KeyboardEvent) => {
     if (e.key == "ArrowLeft") {
-      if (x <= 0) {
+      if (x + tShapeCoordinate[0].x <= 0) {
         isBlocked = true;
         return;
       }
-      rectStack.forEach((placedBlock) => {
-        if (
-          placedBlock.x == tShapeCoordinate[0].x - rectSize &&
-          placedBlock.y - y < rectSize
-        ) {
-          isBlocked = true;
-          return;
-        }
+      tShapeCoordinate.forEach((tShapeCd) => {
+        rectStack.forEach((placedBlock) => {
+          if (
+            placedBlock.x == x + tShapeCd.x - rectSize &&
+            placedBlock.y - (y + tShapeCd.y) < rectSize
+          ) {
+            isBlocked = true;
+            return;
+          }
+        });
       });
+
       if (!isBlocked) {
         x -= rectSize;
       }
     }
     if (e.key == "ArrowRight") {
-      console.log(tShapeCoordinate[tShapeCoordinate.length - 1].x);
       if (
         tShapeCoordinate[tShapeCoordinate.length - 1].x + x >=
         canvas.width - rectSize
       ) {
         isBlocked = true;
       }
-      rectStack.forEach((placedBlock) => {
-        if (placedBlock.x == x + rectSize && placedBlock.y - y < rectSize) {
-          isBlocked = true;
-          return;
-        }
+      tShapeCoordinate.forEach((tShapedCd) => {
+        rectStack.forEach((placedBlock) => {
+          if (
+            placedBlock.x == x + tShapedCd.x + rectSize &&
+            placedBlock.y - (y + tShapedCd.y) < rectSize
+          ) {
+            isBlocked = true;
+            return;
+          }
+        });
       });
+
       if (!isBlocked) {
         x += rectSize;
       }
