@@ -1,23 +1,9 @@
-import { generateTShape } from "./tetromino";
 import "./input.css";
+import { generateOneTetromino } from "./tetromino";
 
 const index = () => {
   const canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
   const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
-
-  const tShapeCoordinate = [
-    { x: 0, y: 0 },
-    { x: 32, y: 0 },
-    { x: 32, y: 32 },
-    { x: 64, y: 0 },
-  ];
-
-  const sShapeCoordinate = [
-    { x: 0, y: 32 },
-    { x: 32, y: 32 },
-    { x: 32, y: 0 },
-    { x: 64, y: 0 },
-  ];
 
   let startPoint = -16;
   let isBlocked = false;
@@ -35,6 +21,10 @@ const index = () => {
   };
 
   const gameLoop = () => {
+    const tetromino = generateOneTetromino();
+    if (!tetromino) {
+      return;
+    }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "gray";
     // draw stackedrect
@@ -52,9 +42,9 @@ const index = () => {
     }
     // new collision code
     ctx.fillStyle = "green";
-    tShapeCoordinate.forEach((tShapeCd) => {
-      const absX = x + tShapeCd.x;
-      const absY = y + tShapeCd.y;
+    tetromino.forEach((ShapeCd) => {
+      const absX = x + ShapeCd.x;
+      const absY = y + ShapeCd.y;
 
       if (absY + rectSize >= canvas.height) {
         isColliding = true;
@@ -75,8 +65,8 @@ const index = () => {
     });
 
     if (isColliding) {
-      tShapeCoordinate.forEach((t) => {
-        rectStack.push({ x: x + t.x, y: y + t.y });
+      tetromino.forEach((shapeCd) => {
+        rectStack.push({ x: x + shapeCd.x, y: y + shapeCd.y });
       });
       x = canvas.width / 2;
       y = startPoint;
@@ -90,16 +80,20 @@ const index = () => {
   };
 
   const XMovement = (e: KeyboardEvent) => {
+    const tetromino = generateOneTetromino();
+    if (!tetromino) {
+      return;
+    }
     if (e.key == "ArrowLeft") {
-      if (x + tShapeCoordinate[0].x <= 0) {
+      if (x + tetromino[0].x <= 0) {
         isBlocked = true;
         return;
       }
-      tShapeCoordinate.forEach((tShapeCd) => {
+      tetromino.forEach((shapeCd) => {
         rectStack.forEach((placedBlock) => {
           if (
-            placedBlock.x == x + tShapeCd.x - rectSize &&
-            placedBlock.y - (y + tShapeCd.y) < rectSize
+            placedBlock.x == x + shapeCd.x - rectSize &&
+            placedBlock.y - (y + shapeCd.y) < rectSize
           ) {
             isBlocked = true;
             return;
@@ -112,13 +106,10 @@ const index = () => {
       }
     }
     if (e.key == "ArrowRight") {
-      if (
-        tShapeCoordinate[tShapeCoordinate.length - 1].x + x >=
-        canvas.width - rectSize
-      ) {
+      if (tetromino[tetromino.length - 1].x + x >= canvas.width - rectSize) {
         isBlocked = true;
       }
-      tShapeCoordinate.forEach((tShapedCd) => {
+      tetromino.forEach((tShapedCd) => {
         rectStack.forEach((placedBlock) => {
           if (
             placedBlock.x == x + tShapedCd.x + rectSize &&

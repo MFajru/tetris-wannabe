@@ -1,28 +1,69 @@
-export const generateTShape = (
-  ctx: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  rectSize: number,
-  isColliding: boolean,
-  rectStack: { x: number; y: number }[]
-) => {
-  // y -= rectSize;
-  ctx.fillRect(x + rectSize, y + rectSize, rectSize, rectSize);
-  ctx.fillRect(x, y, rectSize, rectSize);
-  ctx.fillRect(x + rectSize, y, rectSize, rectSize);
-  ctx.fillRect(x + rectSize * 2, y, rectSize, rectSize);
-  //   ctx.fillRect(0, 0, 32, 32);
-  //   ctx.fillRect(32, 0, 32, 32);
-  //   ctx.fillRect(64, 0, 32, 32);
-  //   ctx.fillRect(32, 32, 32, 32);
-  if (isColliding) {
-    console.log("object");
-    rectStack.push(
-      { x: x + rectSize, y: y + rectSize },
-      { x: x, y: y },
-      { x: x + rectSize, y: y },
-      { x: x + rectSize * 2, y: y }
-    );
-    console.log(rectStack);
-  }
+import { getRandomElement } from "./utils";
+
+type TTetromino = {
+  x: number;
+  y: number;
+};
+
+const tShapeCoordinate: TTetromino[] = [
+  { x: 0, y: 0 },
+  { x: 32, y: 0 },
+  { x: 32, y: 32 },
+  { x: 64, y: 0 },
+];
+
+const sShapeCoordinate: TTetromino[] = [
+  { x: 0, y: 32 },
+  { x: 32, y: 32 },
+  { x: 32, y: 0 },
+  { x: 64, y: 0 },
+];
+
+const zShapeCoordinate: TTetromino[] = [
+  { x: 0, y: 0 },
+  { x: 0, y: 32 },
+  { x: 32, y: 32 },
+  { x: 64, y: 0 },
+];
+
+const jShapeCoordinate: TTetromino[] = [
+  { x: 0, y: 64 },
+  { x: 32, y: 0 },
+  { x: 32, y: 32 },
+  { x: 32, y: 64 },
+];
+
+const lShapeCoordinate: TTetromino[] = [
+  { x: 0, y: 0 },
+  { x: 0, y: 32 },
+  { x: 0, y: 64 },
+  { x: 32, y: 64 },
+];
+
+const iShapeCoordinate: TTetromino[] = [
+  { x: 0, y: 0 },
+  { x: 0, y: 32 },
+  { x: 0, y: 64 },
+  { x: 0, y: 128 },
+];
+
+const oShapeCoordinate: TTetromino[] = [
+  { x: 0, y: 0 },
+  { x: 0, y: 32 },
+  { x: 32, y: 0 },
+  { x: 32, y: 32 },
+];
+
+export const generateOneTetromino = (): TTetromino[] | null => {
+  const tetrominoShapeCd: TTetromino[][] = [
+    tShapeCoordinate,
+    sShapeCoordinate,
+    lShapeCoordinate,
+    iShapeCoordinate,
+    zShapeCoordinate,
+    jShapeCoordinate,
+    oShapeCoordinate,
+  ];
+
+  return getRandomElement(tetrominoShapeCd);
 };
