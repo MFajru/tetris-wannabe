@@ -13,6 +13,7 @@ const index = () => {
   const rectSize = 32;
   let x = canvas.width / 2;
   let y = startPoint;
+  let isPushed = false;
 
   let rectStack: { x: number; y: number }[] = [];
 
@@ -20,8 +21,13 @@ const index = () => {
     XMovement(e);
   };
 
+  let tetromino = generateOneTetromino();
+
   const gameLoop = () => {
-    const tetromino = generateOneTetromino();
+    if (isPushed) {
+      tetromino = generateOneTetromino();
+      isPushed = false;
+    }
     if (!tetromino) {
       return;
     }
@@ -71,6 +77,7 @@ const index = () => {
       x = canvas.width / 2;
       y = startPoint;
       isColliding = false;
+      isPushed = true;
     } else {
       y += fallSpeed;
     }

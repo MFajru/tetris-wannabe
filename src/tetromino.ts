@@ -21,9 +21,9 @@ const sShapeCoordinate: TTetromino[] = [
 
 const zShapeCoordinate: TTetromino[] = [
   { x: 0, y: 0 },
-  { x: 0, y: 32 },
+  { x: 32, y: 0 },
   { x: 32, y: 32 },
-  { x: 64, y: 0 },
+  { x: 64, y: 32 },
 ];
 
 const jShapeCoordinate: TTetromino[] = [
@@ -44,7 +44,7 @@ const iShapeCoordinate: TTetromino[] = [
   { x: 0, y: 0 },
   { x: 0, y: 32 },
   { x: 0, y: 64 },
-  { x: 0, y: 128 },
+  { x: 0, y: 96 },
 ];
 
 const oShapeCoordinate: TTetromino[] = [
