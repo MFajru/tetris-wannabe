@@ -1,6 +1,6 @@
 import { getRandomElement } from "./utils";
 
-type TTetromino = {
+export type TTetromino = {
   x: number;
   y: number;
 };
