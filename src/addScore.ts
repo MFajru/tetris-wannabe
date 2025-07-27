@@ -10,7 +10,7 @@ export const addScore = (rectStack: TTetromino[]): number => {
       count += 1;
       j += 1;
     } else {
-      i = j;
+       i = j;
     }
   }
   console.log("count", count);
