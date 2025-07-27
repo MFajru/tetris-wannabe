@@ -1,9 +1,12 @@
 import "./input.css";
 import { XMovement } from "./movement";
 import { generateOneTetromino } from "./tetromino";
+import $ from "jquery";
+import { TTetromino } from "./type";
+import { addScore } from "./addScore";
 
 const index = () => {
-  const canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
+  const canvas = $("#myCanvas")[0] as HTMLCanvasElement;
   const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
   let startPoint = -16;
@@ -15,13 +18,13 @@ const index = () => {
   let y = startPoint;
   let isPushed = false;
 
-  let rectStack: { x: number; y: number }[] = [];
+  let score = 0;
+  let rectStack: TTetromino[] = [];
+  let tetromino = generateOneTetromino();
 
   document.onkeydown = (e) => {
     x = XMovement(e, tetromino, x, y, rectStack, rectSize, canvas);
   };
-
-  let tetromino = generateOneTetromino();
 
   const gameLoop = () => {
     if (isPushed) {
@@ -77,6 +80,12 @@ const index = () => {
       y = startPoint;
       isColliding = false;
       isPushed = true;
+      if (rectStack.length >= 8) {
+        const scoreAddition = addScore(rectStack);
+        console.log("scoreAddition", scoreAddition);
+        score += scoreAddition;
+        $("#score").text(score);
+      }
     } else {
       y += fallSpeed;
     }
@@ -87,4 +96,6 @@ const index = () => {
   gameLoop();
 };
 
-index();
+$(function () {
+  index();
+});

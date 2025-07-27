@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <div class="w-full h-screen flex justify-center items-center">
@@ -13,6 +18,12 @@
         width="256"
         height="512"
       ></canvas>
+      <div class="flex flex-col m-4 w-[256px] h-[512px] items-end">
+        <div class="flex flex-col items-center">
+          <p class="">Score:</p>
+          <p id="score" class="font-semibold text-lg">0</p>
+        </div>
+      </div>
     </div>
   </body>
 </html>

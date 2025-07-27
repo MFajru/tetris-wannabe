@@ -1,9 +1,5 @@
+import { TTetromino } from "./type";
 import { getRandomElement } from "./utils";
-
-export type TTetromino = {
-  x: number;
-  y: number;
-};
 
 const tShapeCoordinate: TTetromino[] = [
   { x: 0, y: 0 },
@@ -56,12 +52,12 @@ const oShapeCoordinate: TTetromino[] = [
 
 export const generateOneTetromino = (): TTetromino[] | null => {
   const tetrominoShapeCd: TTetromino[][] = [
-    tShapeCoordinate,
-    sShapeCoordinate,
-    lShapeCoordinate,
-    iShapeCoordinate,
-    zShapeCoordinate,
-    jShapeCoordinate,
+    // tShapeCoordinate,
+    // sShapeCoordinate,
+    // lShapeCoordinate,
+    // iShapeCoordinate,
+    // zShapeCoordinate,
+    // jShapeCoordinate,
     oShapeCoordinate,
   ];
 

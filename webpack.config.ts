@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin"); // automate script injection
+const webpack = require("webpack");
 
 module.exports = {
   entry: "./src/index.ts", // Entry point of your TypeScript application
@@ -11,6 +12,10 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html", // Your custom template
+    }),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery",
     }),
   ],
   resolve: {
