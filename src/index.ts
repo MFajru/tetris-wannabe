@@ -12,14 +12,14 @@ const index = () => {
   let startPoint = -16;
   let isColliding = false;
   let isEnd = false;
-  const fallSpeed = 1;
+  const fallSpeed = 4;
   const rectSize = 32;
   let x = canvas.width / 2;
   let y = startPoint;
   let isPushed = false;
 
   let score = 0;
-  let rectStack: TTetromino[] = [];
+  let rectStack: TTetromino[] = [{ x: 0, y: 480 }];
   let tetromino = generateOneTetromino();
 
   document.onkeydown = (e) => {
@@ -80,12 +80,12 @@ const index = () => {
       y = startPoint;
       isColliding = false;
       isPushed = true;
-      if (rectStack.length >= 8) {
-        const scoreAddition = addScore(rectStack);
-        console.log("scoreAddition", scoreAddition);
-        score += scoreAddition;
-        $("#score").text(score);
-      }
+      // if (rectStack.length >= 8) {
+      const scoreAddition = addScore(rectStack);
+      console.log("scoreAddition", scoreAddition);
+      score += scoreAddition;
+      $("#score").text(score);
+      // }
     } else {
       y += fallSpeed;
     }
