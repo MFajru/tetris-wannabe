@@ -19,7 +19,7 @@ const index = () => {
   let isPushed = false;
 
   let score = 0;
-  let rectStack: TTetromino[] = [{ x: 0, y: 480 }];
+  let rectStack: TTetromino[] = [];
   let tetromino = generateOneTetromino();
 
   document.onkeydown = (e) => {
@@ -82,7 +82,6 @@ const index = () => {
       isPushed = true;
       // if (rectStack.length >= 8) {
       const scoreAddition = addScore(rectStack);
-      console.log("scoreAddition", scoreAddition);
       score += scoreAddition;
       $("#score").text(score);
       // }
