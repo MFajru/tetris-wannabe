@@ -12,7 +12,7 @@ const index = () => {
   let startPoint = -16;
   let isColliding = false;
   let isEnd = false;
-  const fallSpeed = 4;
+  const fallSpeed = 2;
   const rectSize = 32;
   let x = canvas.width / 2;
   let y = startPoint;

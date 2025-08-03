@@ -1,23 +1,18 @@
 import { TCount, TTetromino } from "./type";
 
 export const addScore = (rectStack: TTetromino[]): number => {
+  console.log(rectStack);
   let multiplier = 0;
   let countObj: TCount = {};
-  let i = 0;
-  let j = i + 1;
-  const arrIdxToRemoved: number[] = [];
-  const tempArr: TTetromino[] = [...rectStack];
-  while (i < rectStack.length - 1) {
-    if (rectStack[i].y === rectStack[j].y && !countObj[rectStack[i].y]) {
-      countObj[rectStack[i].y] = 2;
-      j += 1;
-    } else if (rectStack[i].y === rectStack[j].y) {
-      countObj[rectStack[i].y] += 1;
-      j += 1;
+
+  for (const rect of rectStack) {
+    if (countObj[rect.y]) {
+      countObj[rect.y] += 1;
     } else {
-      i = j;
+      countObj[rect.y] = 1;
     }
   }
+
   for (const key of Object.keys(countObj)) {
     if (countObj[parseInt(key)] === 8) {
       multiplier += 1;
