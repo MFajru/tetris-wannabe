@@ -1,6 +1,6 @@
 import { TCount, TTetromino } from "./type";
 
-export const addScore = (rectStack: TTetromino[]): number => {
+export const addScore = (rectStack: TTetromino[], rectSize: number): number => {
   console.log(rectStack);
   let multiplier = 0;
   let countObj: TCount = {};
@@ -19,6 +19,8 @@ export const addScore = (rectStack: TTetromino[]): number => {
       for (let k = rectStack.length - 1; k >= 0; k--) {
         if (rectStack[k].y === parseInt(key)) {
           rectStack.splice(k, 1);
+        } else if (rectStack[k].y < parseInt(key)) {
+          rectStack[k].y += rectSize;
         }
       }
     }

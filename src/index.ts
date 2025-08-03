@@ -81,7 +81,7 @@ const index = () => {
       isColliding = false;
       isPushed = true;
       // if (rectStack.length >= 8) {
-      const scoreAddition = addScore(rectStack);
+      const scoreAddition = addScore(rectStack, rectSize);
       score += scoreAddition;
       $("#score").text(score);
       // }
