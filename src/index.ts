@@ -80,11 +80,10 @@ const index = () => {
       y = startPoint;
       isColliding = false;
       isPushed = true;
-      // if (rectStack.length >= 8) {
+
       const scoreAddition = addScore(rectStack, rectSize);
       score += scoreAddition;
       $("#score").text(score);
-      // }
     } else {
       y += fallSpeed;
     }
