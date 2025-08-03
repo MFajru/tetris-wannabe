@@ -1,4 +1,4 @@
-import { TTetromino } from "./type";
+import { TTetromino } from "../utils/type";
 
 export const XMovement = (
   e: KeyboardEvent,

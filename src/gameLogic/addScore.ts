@@ -1,4 +1,4 @@
-import { TCount, TTetromino } from "./type";
+import { TCount, TTetromino } from "../utils/type";
 
 export const addScore = (rectStack: TTetromino[], rectSize: number): number => {
   console.log(rectStack);

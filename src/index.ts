@@ -1,9 +1,11 @@
-import "./input.css";
-import { XMovement } from "./movement";
-import { generateOneTetromino } from "./tetromino";
+import "./css/input.css";
+
 import $ from "jquery";
-import { TTetromino } from "./type";
-import { addScore } from "./addScore";
+import { TTetromino } from "./utils/type";
+import { addScore } from "./gameLogic/addScore";
+import { fallSpeed, rectSize } from "./utils/const";
+import { generateOneTetromino } from "./gameLogic/tetromino";
+import { XMovement } from "./gameLogic/movement";
 
 const index = () => {
   const canvas = $("#myCanvas")[0] as HTMLCanvasElement;
@@ -12,8 +14,6 @@ const index = () => {
   let startPoint = -16;
   let isColliding = false;
   let isEnd = false;
-  const fallSpeed = 2;
-  const rectSize = 32;
   let x = canvas.width / 2;
   let y = startPoint;
   let isPushed = false;
