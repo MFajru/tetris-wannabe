@@ -1,2 +1,2 @@
 export const rectSize = 28;
-export const fallSpeed = 1;
+export const fallSpeed = 2;
