@@ -34,11 +34,9 @@ const index = () => {
   let tetromino = generateOneTetromino();
 
   btnLeft.addEventListener("click", () => {
-    console.log("left");
     x = XMovement("ArrowLeft", tetromino, x, y, rectStack, rectSize, canvas);
   });
   btnRight.addEventListener("click", () => {
-    console.log("right");
     x = XMovement("ArrowRight", tetromino, x, y, rectStack, rectSize, canvas);
   });
 

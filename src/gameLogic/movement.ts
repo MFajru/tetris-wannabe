@@ -25,8 +25,7 @@ export const XMovement = (
     const absX = x + shapeCord.x;
     const absY = y + shapeCord.y;
 
-    // calculate X target
-    // x + shapeCord.x - 32
+    // calculate x target (where block want to be moved)
     const targetX = absX + moveDirection * rectSize;
     const targetY = absY + moveDirection * rectSize;
 
