@@ -1,15 +1,25 @@
 import "./css/input.css";
 
 import $ from "jquery";
-import { TTetromino } from "./utils/type";
+import { IBtnPressed, TTetromino } from "./utils/type";
 import { addScore } from "./gameLogic/addScore";
 import { fallSpeed, rectSize } from "./utils/const";
 import { generateOneTetromino } from "./gameLogic/tetromino";
 import { XMovement } from "./gameLogic/movement";
+import { createIcons, ArrowBigLeft, ArrowBigRight } from "lucide";
+
+createIcons({
+  icons: {
+    ArrowBigLeft,
+    ArrowBigRight,
+  },
+});
 
 const index = () => {
   const canvas = $("#myCanvas")[0] as HTMLCanvasElement;
   const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+  const btnLeft = $("#btnLeft")[0] as HTMLButtonElement;
+  const btnRight = $("#btnRight")[0] as HTMLButtonElement;
 
   let startPoint = -16;
   let isColliding = false;
@@ -17,13 +27,25 @@ const index = () => {
   let x = canvas.width / 2;
   let y = startPoint;
   let isPushed = false;
+  const isBtnPressed: IBtnPressed = { left: false, right: false };
 
   let score = 0;
   let rectStack: TTetromino[] = [];
   let tetromino = generateOneTetromino();
 
+  btnLeft.addEventListener("click", () => {
+    console.log("left");
+    x = XMovement("ArrowLeft", tetromino, x, y, rectStack, rectSize, canvas);
+  });
+  btnRight.addEventListener("click", () => {
+    console.log("right");
+    x = XMovement("ArrowRight", tetromino, x, y, rectStack, rectSize, canvas);
+  });
+
   document.onkeydown = (e) => {
-    x = XMovement(e, tetromino, x, y, rectStack, rectSize, canvas);
+    if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+      x = XMovement(e.key, tetromino, x, y, rectStack, rectSize, canvas);
+    }
   };
 
   const gameLoop = () => {

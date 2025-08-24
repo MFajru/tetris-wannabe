@@ -1,7 +1,7 @@
 import { TTetromino } from "../utils/type";
 
 export const XMovement = (
-  e: KeyboardEvent,
+  key: "ArrowLeft" | "ArrowRight",
   tetromino: TTetromino[] | null,
   x: number,
   y: number,
@@ -15,9 +15,9 @@ export const XMovement = (
   let isBlocked = false;
   let moveDirection = 0;
 
-  if (e.key === "ArrowLeft") {
+  if (key === "ArrowLeft") {
     moveDirection = -1;
-  } else if (e.key === "ArrowRight") {
+  } else if (key === "ArrowRight") {
     moveDirection = 1;
   }
 

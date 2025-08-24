@@ -19,5 +19,8 @@
   "scripts": {
     "build": "webpack",
     "dev": "webpack serve --mode development"
+  },
+  "dependencies": {
+    "lucide": "^0.541.0"
   }
 }

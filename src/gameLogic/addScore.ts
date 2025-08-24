@@ -1,7 +1,6 @@
 import { TCount, TTetromino } from "../utils/type";
 
 export const addScore = (rectStack: TTetromino[], rectSize: number): number => {
-  console.log(rectStack);
   let multiplier = 0;
   let countObj: TCount = {};
 

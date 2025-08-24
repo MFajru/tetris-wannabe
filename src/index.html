@@ -12,16 +12,32 @@
   </head>
   <body class="overscroll-none">
     <div
-      class="w-screen h-screen flex flex-col-reverse justify-center items-center lg:flex-row"
+      class="w-screen h-screen flex flex-col-reverse justify-center items-center xl:flex-row"
     >
+      <div class="flex gap-8 justify-center mt-8 w-[280px] xl:hidden">
+        <button
+          type="button"
+          class="border-2 border-black py-2 px-8"
+          id="btnLeft"
+        >
+          <i data-lucide="arrow-big-left" class="w-6 h-6"></i>
+        </button>
+        <button
+          type="button"
+          class="border-2 border-black py-2 px-8"
+          id="btnRight"
+        >
+          <i data-lucide="arrow-big-right" class="w-6 h-6"></i>
+        </button>
+      </div>
       <canvas
         id="myCanvas"
         class="grid border-solid border-2 border-black"
         width="280"
         height="560"
       ></canvas>
-      <div class="flex flex-col mb-4 lg:mb-0 lg:ml-16 lg:h-[512px] items-end">
-        <div class="flex gap-2 lg:gap-0 lg:flex-col items-center">
+      <div class="flex flex-col mb-4 xl:mb-0 xl:ml-16 xl:h-[512px] items-end">
+        <div class="flex gap-2 xl:gap-0 xl:flex-col items-center">
           <p class="">Score:</p>
           <p id="score" class="font-semibold text-2xl">0</p>
         </div>
