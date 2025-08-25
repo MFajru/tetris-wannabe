@@ -17,6 +17,11 @@ createIcons({
 
 const index = () => {
   const canvas = $("#myCanvas")[0] as HTMLCanvasElement;
+
+  if (!canvas) {
+    console.log("No canvas found on this page. Game logic will not run.");
+    return;
+  }
   const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
   const btnLeft = $("#btnLeft")[0] as HTMLButtonElement;
   const btnRight = $("#btnRight")[0] as HTMLButtonElement;

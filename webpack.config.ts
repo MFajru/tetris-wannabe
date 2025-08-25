@@ -11,8 +11,16 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./src/index.html", // Your custom template
+      template: "./src/index.html", // Path to your source index.html
+      filename: "index.html", // The output file name
+      chunks: ["main"], // Specifies which JS bundle to include
     }),
+    // for new page
+    // new HtmlWebpackPlugin({
+    //   template: "./src/test.html", // Path to your source index.html
+    //   filename: "test.html", // The output file name
+    //   chunks: ["main"], // Specifies which JS bundle to include
+    // }),
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery",
@@ -44,5 +52,11 @@ module.exports = {
     static: path.resolve(__dirname, "dist"), // Serve static files from the 'dist' directory
     port: 3000, // Serve the app on http://localhost:3000
     open: true, // Automatically open the browser when the server starts
+    historyApiFallback: {
+      rewrites: [
+        // This one rule handles /test, /about, /contact, etc. automatically
+        { from: /^\/test$/, to: "/test.html" },
+      ],
+    },
   },
 };
