@@ -32,7 +32,6 @@ const index = () => {
   let x = canvas.width / 2;
   let y = startPoint;
   let isPushed = false;
-  const isBtnPressed: IBtnPressed = { left: false, right: false };
 
   let score = 0;
   let rectStack: TTetromino[] = [];
