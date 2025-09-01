@@ -11,7 +11,7 @@ module.exports = {
     clean: true, // Clean the output directory before each build
   },
   plugins: [
-    new FaviconsWebpackPlugin("./public/favicon.ico"),
+    new FaviconsWebpackPlugin("./src/assets/favicon.ico"),
     new HtmlWebpackPlugin({
       template: "./src/index.html", // Path to your source index.html
       filename: "index.html", // The output file name
