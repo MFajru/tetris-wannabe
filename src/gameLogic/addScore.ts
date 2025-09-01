@@ -1,6 +1,10 @@
 import { TCount, TTetromino } from "../utils/type";
 
-export const addScore = (rectStack: TTetromino[], rectSize: number): number => {
+export const addScore = (
+  rectStack: TTetromino[],
+  rectSize: number,
+  canvasWidth: number
+): number => {
   let multiplier = 0;
   let countObj: TCount = {};
 
@@ -13,7 +17,7 @@ export const addScore = (rectStack: TTetromino[], rectSize: number): number => {
   }
 
   for (const key of Object.keys(countObj)) {
-    if (countObj[parseInt(key)] === 8) {
+    if (countObj[parseInt(key)] === rectSize / canvasWidth) {
       multiplier += 1;
       for (let k = rectStack.length - 1; k >= 0; k--) {
         if (rectStack[k].y === parseInt(key)) {
@@ -24,6 +28,7 @@ export const addScore = (rectStack: TTetromino[], rectSize: number): number => {
       }
     }
   }
+  console.log(countObj);
 
   return 10 * multiplier;
 };

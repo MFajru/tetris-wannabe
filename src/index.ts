@@ -105,7 +105,7 @@ const index = () => {
       isColliding = false;
       isPushed = true;
 
-      const scoreAddition = addScore(rectStack, rectSize);
+      const scoreAddition = addScore(rectStack, rectSize, canvas.width);
       score += scoreAddition;
       $("#score").text(score);
     } else {
