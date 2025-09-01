@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin"); // automate script injection
 const webpack = require("webpack");
+const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 
 module.exports = {
   entry: "./src/index.ts", // Entry point of your TypeScript application
@@ -10,6 +11,7 @@ module.exports = {
     clean: true, // Clean the output directory before each build
   },
   plugins: [
+    new FaviconsWebpackPlugin("./public/favicon.ico"),
     new HtmlWebpackPlugin({
       template: "./src/index.html", // Path to your source index.html
       filename: "index.html", // The output file name
