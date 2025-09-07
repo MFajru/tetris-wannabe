@@ -19,8 +19,21 @@
     ></div>
     <div
       id="btnDiv"
-      class="w-screen h-screen absolute z-20 flex justify-center items-center"
+      class="w-screen h-screen absolute z-20 flex flex-col justify-center items-center gap-8"
     >
+      <h2
+        id="gameOverTxt"
+        class="hidden uppercase text-7xl text-red-500 tracking-wide font-semibold"
+      >
+        Game over
+      </h2>
+      <div id="scoreCover" class="hidden">
+        <div class="flex flex-col items-center">
+          <h2>Score:</h2>
+          <p id="score" class="font-medium text-7xl">0</p>
+        </div>
+      </div>
+
       <button
         id="btnPlay"
         class="hover:cursor-pointer bg-green-700 text-white py-2 px-8 text-2xl uppercase"
