@@ -6,8 +6,3 @@ export type TTetromino = {
 export type TCount = {
   [key: number]: number;
 };
-
-export interface IBtnPressed {
-  left: boolean;
-  right: boolean;
-}

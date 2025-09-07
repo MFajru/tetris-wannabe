@@ -1,7 +1,7 @@
 import "./css/input.css";
 
 import $ from "jquery";
-import { IBtnPressed, TTetromino } from "./utils/type";
+import { TTetromino } from "./utils/type";
 import { addScore } from "./gameLogic/addScore";
 import { fallSpeed, rectSize } from "./utils/const";
 import { generateOneTetromino } from "./gameLogic/tetromino";
@@ -15,7 +15,13 @@ createIcons({
   },
 });
 
-const index = () => {
+const index = (isPlaying: boolean) => {
+  $("#btnPlay").on("click", () => {
+    $("#cover").toggleClass("hidden");
+    $("#btnDiv").toggleClass("hidden");
+    index(true);
+  });
+
   const canvas = $("#myCanvas")[0] as HTMLCanvasElement;
 
   if (!canvas) {
@@ -37,18 +43,20 @@ const index = () => {
   let rectStack: TTetromino[] = [];
   let tetromino = generateOneTetromino();
 
-  btnLeft.addEventListener("click", () => {
-    x = XMovement("ArrowLeft", tetromino, x, y, rectStack, rectSize, canvas);
-  });
-  btnRight.addEventListener("click", () => {
-    x = XMovement("ArrowRight", tetromino, x, y, rectStack, rectSize, canvas);
-  });
+  if (isPlaying) {
+    btnLeft.addEventListener("click", () => {
+      x = XMovement("ArrowLeft", tetromino, x, y, rectStack, rectSize, canvas);
+    });
+    btnRight.addEventListener("click", () => {
+      x = XMovement("ArrowRight", tetromino, x, y, rectStack, rectSize, canvas);
+    });
 
-  document.onkeydown = (e) => {
-    if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
-      x = XMovement(e.key, tetromino, x, y, rectStack, rectSize, canvas);
-    }
-  };
+    document.onkeydown = (e) => {
+      if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+        x = XMovement(e.key, tetromino, x, y, rectStack, rectSize, canvas);
+      }
+    };
+  }
 
   const gameLoop = () => {
     if (isPushed) {
@@ -119,5 +127,5 @@ const index = () => {
 };
 
 $(function () {
-  index();
+  index(false);
 });

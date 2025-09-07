@@ -28,7 +28,6 @@ export const addScore = (
       }
     }
   }
-  console.log(countObj);
 
   return 10 * multiplier;
 };
