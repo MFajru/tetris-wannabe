@@ -44,7 +44,6 @@ const startGame = () => {
   y = startPoint;
   $("#scoreLive").text(score);
   $("#score").text(score);
-  console.log($("#score"));
 
   cover.addClass("hidden");
   btnDiv.addClass("hidden");
@@ -94,7 +93,6 @@ const gameLoop = () => {
     cancelAnimationFrame(animationId);
     return;
   } else if (isEnd) {
-    console.log("object");
     cancelAnimationFrame(animationId);
     return;
   }
@@ -139,7 +137,6 @@ const gameLoop = () => {
     const scoreAddition = addScore(rectStack, rectSize, canvas.width);
     score += scoreAddition;
     $("#scoreLive").text(score);
-    console.log(score);
   } else if (fallTimer >= 1 / fallSpeed) {
     y += rectSize;
     fallTimer = 0;
