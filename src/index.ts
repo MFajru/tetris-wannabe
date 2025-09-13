@@ -42,7 +42,9 @@ const startGame = () => {
   rectStack = [];
   x = canvas.width / 2;
   y = startPoint;
+  $("#scoreLive").text(score);
   $("#score").text(score);
+  console.log($("#score"));
 
   cover.addClass("hidden");
   btnDiv.addClass("hidden");
@@ -83,6 +85,7 @@ const gameLoop = () => {
   });
 
   if (isEnd && isPlaying) {
+    $("#score").text(score);
     cover.toggleClass("hidden");
     btnDiv.toggleClass("hidden");
     gameOverTxt.toggleClass("hidden");
@@ -135,7 +138,8 @@ const gameLoop = () => {
 
     const scoreAddition = addScore(rectStack, rectSize, canvas.width);
     score += scoreAddition;
-    $("#score").text(score);
+    $("#scoreLive").text(score);
+    console.log(score);
   } else if (fallTimer >= 1 / fallSpeed) {
     y += rectSize;
     fallTimer = 0;

@@ -53,12 +53,12 @@ const oShapeCoordinate: TTetromino[] = [
 
 export const generateOneTetromino = (): TTetromino[] | null => {
   const tetrominoShapeCd: TTetromino[][] = [
-    tShapeCoordinate,
-    sShapeCoordinate,
-    lShapeCoordinate,
-    iShapeCoordinate,
-    zShapeCoordinate,
-    jShapeCoordinate,
+    // tShapeCoordinate,
+    // sShapeCoordinate,
+    // lShapeCoordinate,
+    // iShapeCoordinate,
+    // zShapeCoordinate,
+    // jShapeCoordinate,
     oShapeCoordinate,
   ];
 
