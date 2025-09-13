@@ -41,7 +41,7 @@ const config = (_: Record<string, any>, argv: Argv): Configuration => {
         new MiniCssExtractPlugin({
           filename: "[name].[contenthash].css",
         }),
-    ],
+    ].filter(Boolean),
     resolve: {
       extensions: [".ts", ".js"], // Resolve these file extensions when importing
     },
@@ -58,7 +58,11 @@ const config = (_: Record<string, any>, argv: Argv): Configuration => {
           // use "style-loader" in dev to able to hot reload the css
           // but hot reload css is not working when I'm using tailwind
           // so, I decide just to use MinicssExtractPlugin in dev and production
-          use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
+          use: [
+            isProduction ? MiniCssExtractPlugin.loader : "style-loader",
+            "css-loader",
+            "postcss-loader",
+          ],
         },
         {
           test: /\.(png|jpe?g|gif|svg)$/i, // Match common image file types
@@ -76,6 +80,11 @@ const config = (_: Record<string, any>, argv: Argv): Configuration => {
           // This one rule handles /test, /about, /contact, etc. automatically
           { from: /^\/test$/, to: "/test.html" },
         ],
+      },
+      client: {
+        logging: "info", // or "none" to hide all client logs
+        reconnect: 5, // number of times to retry before giving up
+        overlay: true, // show compilation errors in browser overlay
       },
     },
   };

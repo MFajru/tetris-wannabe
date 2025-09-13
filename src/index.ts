@@ -23,6 +23,9 @@ const scoreCoverDiv = $("#scoreCover");
 const canvas = $("#myCanvas")[0] as HTMLCanvasElement;
 const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
+let animationId: number = 0;
+let lastTime = performance.now();
+let fallTimer = 0;
 let isColliding = false;
 let isEnd = false;
 let y = startPoint;
@@ -34,7 +37,6 @@ let rectStack: TTetromino[] = [];
 let tetromino = generateOneTetromino();
 
 const startGame = () => {
-  isEnd = false;
   isPlaying = true;
   score = 0;
   rectStack = [];
@@ -48,6 +50,10 @@ const startGame = () => {
   scoreCoverDiv.addClass("hidden");
 
   setupControls();
+  if (isEnd) {
+    isEnd = false;
+    gameLoop();
+  }
 };
 
 const gameLoop = () => {
@@ -55,15 +61,21 @@ const gameLoop = () => {
     tetromino = generateOneTetromino();
     isPushed = false;
   }
+
   if (!tetromino) {
     return;
   }
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   ctx.fillStyle = "gray";
   rectStack.forEach((placedBlock) => {
-    ctx.fillRect(placedBlock.x, placedBlock.y, rectSize, rectSize);
-
+    ctx.fillRect(
+      Math.round(placedBlock.x),
+      Math.round(placedBlock.y),
+      rectSize,
+      rectSize
+    );
     if (x == placedBlock.x && placedBlock.y < rectSize) {
       isEnd = true;
       return;
@@ -76,12 +88,14 @@ const gameLoop = () => {
     gameOverTxt.toggleClass("hidden");
     scoreCoverDiv.toggleClass("hidden");
     isPlaying = false;
+    cancelAnimationFrame(animationId);
+    return;
+  } else if (isEnd) {
+    console.log("object");
+    cancelAnimationFrame(animationId);
     return;
   }
 
-  if (isEnd) {
-    return;
-  }
   ctx.fillStyle = "green";
   tetromino.forEach((shapeCord) => {
     const absX = x + shapeCord.x;
@@ -93,7 +107,7 @@ const gameLoop = () => {
     }
 
     rectStack.forEach((placedRect) => {
-      if (absX === placedRect.x && absY + rectSize === placedRect.y) {
+      if (absX === placedRect.x && absY + rectSize >= placedRect.y) {
         isColliding = true;
         return;
       }
@@ -102,8 +116,13 @@ const gameLoop = () => {
     if (isColliding) {
       return;
     }
-    ctx.fillRect(absX, absY, rectSize, rectSize);
+    ctx.fillRect(Math.round(absX), Math.round(absY), rectSize, rectSize);
   });
+
+  const now = performance.now();
+  const delta = (now - lastTime) / 1000;
+  lastTime = now;
+  fallTimer += delta;
 
   if (isColliding) {
     tetromino.forEach((shapeCd) => {
@@ -117,11 +136,12 @@ const gameLoop = () => {
     const scoreAddition = addScore(rectStack, rectSize, canvas.width);
     score += scoreAddition;
     $("#score").text(score);
-  } else {
-    y += fallSpeed;
+  } else if (fallTimer >= 1 / fallSpeed) {
+    y += rectSize;
+    fallTimer = 0;
   }
 
-  requestAnimationFrame(gameLoop);
+  animationId = requestAnimationFrame(gameLoop);
 };
 
 const setupControls = () => {

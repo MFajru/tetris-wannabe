@@ -15,9 +15,8 @@ export const addScore = (
       countObj[rect.y] = 1;
     }
   }
-
   for (const key of Object.keys(countObj)) {
-    if (countObj[parseInt(key)] === rectSize / canvasWidth) {
+    if (countObj[parseInt(key)] === canvasWidth / rectSize) {
       multiplier += 1;
       for (let k = rectStack.length - 1; k >= 0; k--) {
         if (rectStack[k].y === parseInt(key)) {
