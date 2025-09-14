@@ -167,7 +167,7 @@ const setupControls = () => {
 
 const startScreen = () => {
   gameLoop();
-  $("#btnPlay").on("click", startGame);
+  btnDiv.on("click", startGame);
 };
 
 $(function () {
