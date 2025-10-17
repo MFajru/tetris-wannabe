@@ -1,4 +1,4 @@
-# TETRIS CLASSIC
+# CLASSIC TETRIS
 This is my personal project to make classic tetris using HTML and JS.
 
 ## How To Play
